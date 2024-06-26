@@ -8,7 +8,7 @@ import config from "./src/config/index.js";
       .connect(config.DBurl)
       .then((res) => console.log("dbConnected"));
 
-    app.listen(5000, () => {
+    app.listen(5005, () => {
       console.log("server started");
     });
   } catch (error) {
