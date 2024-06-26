@@ -21,6 +21,7 @@ const userSchema = new mongoose.Schema(
     },
     forgetPasswordToken: String,
     forgetPasswordExpiry: Date,
+    __v: { type: Number, select: false },
   },
   { timestams: true }
 );
@@ -33,7 +34,9 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods = {
   comparepassword: async function (password) {
-    return await bcrypt.compare(password, this.password);
+    console.log(password);
+    console.log(this.password);
+    return await bcrypt.compare(password.toString(), this.password);
   },
 
   createJwtToken: function () {

@@ -39,8 +39,9 @@ export const login = async (req, res, next) => {
     }
 
     const checkPass = await user.comparepassword(password);
-    console.log(checkPass);
+
     if (checkPass) {
+      user.password = undefined;
       res
         .status(200)
         .json({ message: "user loggedin successfully", success: true, user });
