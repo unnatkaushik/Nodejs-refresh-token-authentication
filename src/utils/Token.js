@@ -26,7 +26,6 @@ export const createToken = async (user, res) => {
   const checkPrevToken = await UserTokenSchema.findOneAndDelete({
     userId: user._id,
   });
-  console.log(checkPrevToken);
   await UserTokenSchema.create({
     userId: user._id,
     refreshtoken: refreshToken,

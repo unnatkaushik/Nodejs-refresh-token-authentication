@@ -1,5 +1,6 @@
 import config from "../config/index.js";
 import UserTokenSchema from "../model/UserToken.schema.js";
+import userSchema from "../model/user.schema.js";
 import User from "../model/user.schema.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import {
@@ -20,7 +21,7 @@ export const userRegister = async (req, res, next) => {
 
     const user = await User.create({ name, email, password });
 
-    const token = await user.createJwtToken();
+    const token = await user.createAccessToken();
 
     res.status(201).json({
       message: "User created successfully",
@@ -120,4 +121,30 @@ export const logout = async (req, res, next) => {
   } catch (error) {
     return next(new ErrorHandler(error), 400);
   }
+};
+
+export const allUser = async (req, res, next) => {
+  try {
+    const allUser = await userSchema.find();
+    console.log(allUser);
+
+    res
+      .status(200)
+      .json({ success: true, message: "Fetched successfully", users: allUser });
+  } catch (error) {
+    return next(new ErrorHandler(error), 400);
+  }
+};
+
+export const myInfo = async (req, res, next) => {
+  res.status(200).json({ user: req.user });
+};
+
+export const testing = async (req, res, next) => {
+  res.cookie(
+    "access_token",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2N2QzODVlZWY4ZTA0OWViYTY1ZjJhZCIsImlhdCI6MTcxOTQ4NTAxMiwiZXhwIjoxNzE5NDg1MzEyfQ.lK7W4kY0WbZKWAFtS0_p6f544hgC5yoTgXGawb1U6Uk",
+    accessTokenCookiesOption
+  );
+  res.send("hello");
 };
